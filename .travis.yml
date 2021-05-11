@@ -4,30 +4,34 @@ cache:
     directories:
         - $HOME/.composer/cache
 
-php:
-    - '7.1'
-    - '7.2'
-    - '7.3'
-    - '7.4'
-    - '8.0'
+# php:
+#     - '7.1'
+#     - '7.2'
+#     - '7.3'
+#     - '7.4'
+#     - '8.0'
 
 jobs:
     fast_finish: true
     include:
         - php: 8.0
-          env: COVERAGE=true
+          env: XDEBUG_MODE=true
           before_script:
             - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             - chmod +x ./cc-test-reporter
           script:
-            - "phpunit --coverage-text --coverage-clover build/logs/clover.xml"
-            - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT; fi
+            - "phpunit --coverage-text --coverage-clover clover.xml"
+            - ls -l
+            - ls -l tests/
+            - ls -l tests/output/
+            # - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT; fi
+            # - ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT
     allow_failures:
-        - env: COVERAGE=true
+        - env: XDEBUG_MODE=true
 
 before_script:
     # disable xdebug if not coverage
-    - if [[ $COVERAGE == "" ]]; then phpenv config-rm xdebug.ini; fi
+    - if [[ $XDEBUG_MODE == "" ]]; then phpenv config-rm xdebug.ini; fi
 
 install:
   - composer install --no-interaction --prefer-dist --no-ansi --no-progress --no-suggest
