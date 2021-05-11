@@ -213,6 +213,9 @@ class Paginator
 		}
 
 		[$leftDotsIndex, $middleIndex, $rightDotsIndex] = $this->getDotsIndex($paginator);
+		if ($middleIndex === null) {
+			$middleIndex = 0;
+		}
 
 		// There are no dots on the left side but breakpoint should hide some of the elements on the left side
 		if (!$leftDotsIndex && $this->currentPage > (int)\ceil($maxVisible / 2)) {
@@ -256,7 +259,7 @@ class Paginator
 			$hideFromRight = $toHide;
 		} elseif ($leftDotsIndex && !$rightDotsIndex) {
 			$hideFromLeft = $toHide;
-		} elseif ($leftDotsIndex && $rightDotsIndex) {
+		} elseif ($leftDotsIndex) { // "&& $rightDotsIndex" has no effect on condition and is removed
 			// How many buttons around actual index should be visible
 			$middleVisibleOffset = (int)\ceil((\count($paginator->buttons) - $toHide - 5) / 2);
 			$hideFromLeft = $middleIndex - 2 - $middleVisibleOffset;
@@ -279,7 +282,7 @@ class Paginator
 	}
 
 	/**
-	 * @return array<int>
+	 * @return array<?int>
 	 */
 	protected function getDotsIndex(Pages $paginator): array
 	{
@@ -308,16 +311,17 @@ class Paginator
 	/**
 	 * Search index in array by condition in callback
 	 *
-	 * @param  mixed[] $arr
-	 * @return mixed
+	 * @param mixed[] $arr
 	 */
-	private static function arrayCallbackSearch(array $arr, callable $searchCallback)
+	private static function arrayCallbackSearch(array $arr, callable $searchCallback): ?int
 	{
 		foreach ($arr as $key => $item) {
 			if (\call_user_func($searchCallback, $item, $key)) {
 				return $key;
 			}
 		}
+
+		return null;
 	}
 
 	/**

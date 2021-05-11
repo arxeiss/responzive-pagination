@@ -5,6 +5,8 @@
     <file>./src</file>
     <file>./tests</file>
 
+    <config name="php_version" value="70000"/>
+
     <arg name="basepath" value="."/> <!-- Strip file basepath from report -->
     <arg name="colors"/>
     <arg value="p"/><!-- Display progress in report -->
