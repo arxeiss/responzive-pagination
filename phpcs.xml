@@ -5,25 +5,16 @@
     <file>./src</file>
     <file>./tests</file>
 
-    <config name="php_version" value="70000"/>
+    <config name="php_version" value="70100"/>
 
     <arg name="basepath" value="."/> <!-- Strip file basepath from report -->
     <arg name="colors"/>
     <arg value="p"/><!-- Display progress in report -->
     <arg value="s"/><!-- Display sniff codes in report -->
 
-    <rule ref="./vendor/arxeiss/coding-standards/Rules/phpcs-tabs.xml">
-        <!-- trailing comma in function call is supported in PHP 7.3 and above -->
-        <exclude name="SlevomatCodingStandard.Functions.TrailingCommaInCall"/>
-    </rule>
-
+    <rule ref="./vendor/arxeiss/coding-standards/Rules/phpcs-tabs.xml"/>
     <rule ref="./vendor/arxeiss/coding-standards/Rules/phpcs-strict.xml"/>
 
-    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"> <!-- Check type hint for class property -->
-        <properties>
-            <property name="enableNativeTypeHint" value="false" /><!-- Still need support for older PHP than 7.4 -->
-        </properties>
-    </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation">
         <severity>5</severity>
     </rule>
