@@ -4,12 +4,12 @@ cache:
     directories:
         - $HOME/.composer/cache
 
-# php:
-#     - '7.1'
-#     - '7.2'
-#     - '7.3'
-#     - '7.4'
-#     - '8.0'
+php:
+    - '7.1'
+    - '7.2'
+    - '7.3'
+    - '7.4'
+    - '8.0'
 
 jobs:
     fast_finish: true
@@ -21,11 +21,7 @@ jobs:
             - chmod +x ./cc-test-reporter
           script:
             - "phpunit --coverage-text --coverage-clover clover.xml"
-            - ls -l
-            - ls -l tests/
-            - ls -l tests/output/
-            # - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT; fi
-            # - ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT
+            - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT; fi
     allow_failures:
         - env: XDEBUG_MODE=coverage
 
